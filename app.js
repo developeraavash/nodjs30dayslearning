@@ -5,6 +5,11 @@ const userModel = require('./models/user')
 const postModel = require('./models/posts')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const path = require('path')
+
+const upload = require('./config/multerconfig')
+app.use(express.static(path.join(__dirname, 'public')))
+
 port = 3000
 
 app.listen(port)
@@ -26,7 +31,8 @@ app.get('/', (req, res) => {
   res.render('register')
 })
 
-// Post Page
+
+// register - user
 app.post('/register-user', async (req, res) => {
   try {
     let { email, password, username, name, age } = req.body
@@ -100,7 +106,8 @@ app.post('/post', isLoggedIn, async (req, res) => {
 app.get('/profile', isLoggedIn, async (req, res) => {
   let user = await userModel.findOne({ email: req.user.email })
   // console.log(user) //  post: [ new ObjectId('66ba3a257a5a4f49e835b3e5') ],
-  let post = await user.populate('post') //
+  let post = await user.populate('post')
+  //
   //   post: [
   //   {
   //     _id: new ObjectId('66ba3a257a5a4f49e835b3e5'),
@@ -154,7 +161,7 @@ app.get('/edit/:id', isLoggedIn, async (req, res) => {
 })
 
 app.post('/update/:id', isLoggedIn, async (req, res) => {
-  console.log(req.params.id);
+  console.log(req.params.id)
   let post = await postModel.findByIdAndUpdate(req.params.id, {
     content: req.body.content
   })
@@ -186,3 +193,23 @@ function isLoggedIn (req, res, next) {
       .send('Invalid or expired token. Please log in again.')
   }
 }
+
+// Multer
+
+app.get('/profile/upload', (req, res) => {
+  res.render('uploadprofile')
+})
+
+app.post('/upload', isLoggedIn, upload.single('image'), async (req, res) => {
+  console.log(req.user)
+  try {
+    let user = await userModel.findOne({ email: req.user.email })
+    user.profilepic = req.file.filename
+    await user.save()
+
+    res.redirect('/profile')
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Something went wrong' })
+  }
+})

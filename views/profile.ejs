@@ -20,8 +20,15 @@
                     class="ml-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Logout</a>
             </div>
+            <div class="flex">
 
-            <h1 class="text-3xl font-bold mb-6 text-center">Hello <%= user.name %></h1>
+                <div class="  w-10 h-10 rounded-md mb-3 overflow-hidden ">
+                    <img class="w-full h-full object-cover rounded-md" src="/images/uploads/<%= user.profilepic %>"
+                        alt="">
+                </div>
+
+                <h1 class="text-3xl ml-3 font-bold mb-6 text-center">Hello <%= user.name %></h1>
+            </div>
 
             <form action="/post" method="post">
                 <textarea name="content" placeholder="What's on your mind?"
