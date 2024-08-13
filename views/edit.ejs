@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+    <div class="flex justify-center items-center min-h-screen flex-col space-y-8">
+
+
+
+        <!-- Your Posts Section -->
+        <div class="w-full max-w-6xl">
+            <h3 class="text-3xl font-bold mb-4">Edit Your Posts</h3>
+
+            <!-- Grid Layout for Posts -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+                <!-- Post Card -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+                    <form action="/update/<%= post._id  %>" method="post">
+
+
+                        <div class="flex  ">
+                            <input name="content" value="<%= post.content  %>" placeholder="What's on your mind?"
+                                class="w-full block resize-none bg-transparent border-2 border-zinc-800 rounded-md p-3 outline-none"
+                                id="">
+
+                            <input type="submit" value="Update Post"
+                                class="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md cursor-pointer">
+
+
+
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
